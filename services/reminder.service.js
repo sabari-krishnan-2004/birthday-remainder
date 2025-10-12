@@ -1,4 +1,5 @@
 import Birthday from "../models/birthday.model.js";
+import { sendWhatsAppMessage } from "./whatsapp.service.js";
 
 export const checkBirthdays = async() => {
     console.log("Checking for today's birthdays...");
@@ -13,9 +14,11 @@ export const checkBirthdays = async() => {
             const dob = new Date(person.dob);
             if(dob.getDate() === today.getDate() && dob.getMonth() === today.getMonth()){
                 console.log(`Today is ${person.name}'s birthday!`);
+                await sendWhatsAppMessage(person.name, "today");
             }
             if(dob.getDate() === tomorrow.getDate() && dob.getMonth() === tomorrow.getMonth()){
                 console.log(`Tomorrow is ${person.name}'s birthday!`);
+                await sendWhatsAppMessage(person.name, "tomorrow");
             }
             
         }

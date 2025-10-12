@@ -1,12 +1,17 @@
-import express from "express";
+
+
 import dotenv from "dotenv";
-import birthdayRoutes from "./routes/birthday.routes.js";
-import cron from 'node-cron';
-
-
 dotenv.config();
 
+// Debug: Print all TWILIO_ and RECIPIENT_WHATSAPP_NUMBER env variables
+console.log('DEBUG: Environment variables loaded:');
+Object.keys(process.env)
+  .filter(key => key.startsWith('TWILIO_') || key === 'RECIPIENT_WHATSAPP_NUMBER')
+  .forEach(key => console.log(key + ':', process.env[key]));
 
+import express from "express";
+import cron from 'node-cron';
+import birthdayRoutes from "./routes/birthday.routes.js";
 import connectDB from "./config/database.js";
 import { checkBirthdays } from "./services/reminder.service.js";
 
@@ -34,6 +39,11 @@ cron.schedule(
     timezone: "Asia/Kolkata", // Specify the IST timezone
   }
 );
+
+// Temporarily change to this for testing
+// cron.schedule("* * * * *", () => {
+//   checkBirthdays();
+// });
 
 app.listen(PORT, () => {
   console.log(` Server is listening on port ${PORT}`);
