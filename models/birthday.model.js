@@ -1,20 +1,26 @@
 import mongoose from "mongoose";
 
-const birthdaySchema = new mongoose.Schema({
+const birthdaySchema = new mongoose.Schema(
+  {
     name: {
-        type: String,
-        required: [true, "Please add a name"],
-        trim: true,
-        maxlength: [50, "Name can not be more than 50 characters"],
+      type: String,
+      required: [true, "Person's name is required"],
     },
     dob: {
-        type: Date,
-        required: [true, "Please add a date of birth"],
+      type: Date,
+      required: [true, "Date of birth is required"],
     },
-}, {
+    // Add this user field
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "User", 
+    },
+  },
+  {
     timestamps: true,
-});
+  }
+);
 
 const Birthday = mongoose.model("Birthday", birthdaySchema);
-
 export default Birthday;

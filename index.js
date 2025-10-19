@@ -14,6 +14,7 @@ import cron from 'node-cron';
 import birthdayRoutes from "./routes/birthday.routes.js";
 import connectDB from "./config/database.js";
 import { checkBirthdays } from "./services/reminder.service.js";
+import userRoutes from "./routes/user.routes.js";
 
 connectDB();
 
@@ -28,7 +29,9 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
+app.use("/api/users", userRoutes);
 app.use("/api/birthdays", birthdayRoutes);
+
 
 cron.schedule(
   "0 0 * * *", // This means at minute 0 of hour 0 (midnight)
